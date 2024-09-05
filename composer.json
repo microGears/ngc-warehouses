@@ -1,0 +1,38 @@
+{
+  "name": "microgears/ngc-warehouses",
+  "type": "library",
+  "description": "API module that allows you to get (save) a list of warehouses and use them for delivery services",
+  "keywords": [
+    "microGears",
+    "ngc-warehouses"
+  ],
+  "license": "MIT",
+  "authors": [
+    {
+      "name": "Maxim Kirichenko",
+      "email": "kirichenko.maxim@gmail.com"
+    }
+  ],
+  "require": {
+    "php": "^7.4||^8.0",
+    "ext-pdo": "*",
+    "ext-json": "*",
+    "ext-curl": "*",
+    "ext-mbstring": "*",
+    "ext-simplexml": "*",
+    "microgears/webstone-stdlib": "^1.0",
+    "microgears/webstone-requests": "^1.0",
+    "microgears/webstone-pdo": "^1.0",
+    "chronolog/chronolog": "^1.0"
+  },
+  "autoload": {
+    "psr-4": {"NG\\API\\Warehouses\\": "src"}
+  },
+  "autoload-dev": {
+    "psr-4": {"NG\\API\\Warehouses\\Tests\\": "tests"}
+  },
+  "require-dev": {
+    "phpunit/phpunit": "^10.5",
+    "chronolog/chronolog": "^1.0"
+  }
+}
