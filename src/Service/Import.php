@@ -45,16 +45,13 @@ class Import extends AutoInitialized
     {
         $this->logMsg(sprintf('Start import, key #%s', $this->getSessionKey()), Severity::Debug);
         try {
-            // Параметры импорта
             $import_params = ['old_remove' => false, 'old_deactivate' => true, 'partial' => false];
-
-            // Обновить значения в $self_params значениями из $params при совпадении ключей
+            
             $intersect_keys = array_intersect_key($params, $import_params);
             foreach ($intersect_keys as $key => $value) {
                 $import_params[$key] = $value;
             }
 
-            // Удалить ключи из $params
             $self_params_keys = array_keys($import_params);
             $params           = array_diff_key($params, array_flip($self_params_keys));
 
@@ -94,17 +91,17 @@ class Import extends AutoInitialized
                 }
             } while ($page < $pages && !$partial);
 
-            // Деактивировать старые записи
+            // Deactivate old records
             if (ArrayHelper::element('old_deactivate', $import_params, false)) {
                 $this->getDb()->loadSql(sprintf("UPDATE `%s` SET `_active` = 0 WHERE `_import_key` != '%s'", LayoutWarehouse::getTableName(), $this->getSessionKey()))->execute();
             }
 
-            // Удалить старые записи
+            // Delete old records
             if (ArrayHelper::element('old_remove', $import_params, false)) {
                 $this->getDb()->loadSql(sprintf("DELETE FROM `%s` WHERE `_import_key` != '%s'", LayoutWarehouse::getTableName(), $this->getSessionKey()))->execute();
             }
 
-            // Активировать новые записи
+            // Activate new entries
             $this->getDb()->loadSql(sprintf("UPDATE `%s` SET `_active` = 1 WHERE `_import_key` = '%s'", LayoutWarehouse::getTableName(), $this->getSessionKey()))->execute();
         } catch (\Exception $e) {
             $this->logMsg($e->getMessage(), Severity::Error);
