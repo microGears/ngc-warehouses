@@ -91,7 +91,6 @@ class WarehouseRecordset extends SearchRecordsetAbstract
         return $this;
     }
 
-    // Функція для обчислення відстані між двома точками за формулою Гарсина
     protected function haversineDistance(float $lat1, float $lon1, float $lat2, float $lon2): float
     {
         $earthRadius = 6371000; // радіус Землі в метрах
@@ -131,9 +130,7 @@ class WarehouseRecordset extends SearchRecordsetAbstract
             }
 
             $query->where('_active', 1);
-
             $query->limit($this->getPageSize(), $this->getPageSize() * ($this->getPageIndex() - 1));
-            // $query->orderBy('address_country, address_city');
 
             $result = $query->rows();
         }
