@@ -1,12 +1,12 @@
-## Setup
-Создание таблицы для хранения справочника отделений
+# Setup
+Creating a table to store a directory of warehouses
 
 ```php
 use NG\API\Warehouses\Service\Installer;
 use WebStone\PDO\Database;
 
-// Создаем подключение к базе данных (к примеру, MySQL сервера)
-// Параметры метода addConnection():
+// Create a connection to the database (for example, MySQL server)
+// Parameters of the addConnection() method:
 //    string $key The key to identify the connection.
 //    string $dsn The Data Source Name (DSN) for the connection.
 //    string|null $username The username for the connection (optional).
@@ -17,10 +17,11 @@ $db = new Database();
 $db->addConnection('mysql', 'mysql:host=localhost;dbname=test', 'user', 'password');
 $db->selectConnection('mysql');
 
-// Создаем экземпляр объекта `Installer` и выполняем установку
+// Create an instance of the `Installer` object and perform the installation
 $installer = new Installer($db);
 $installer->install();
 ```
-Важно! В версии 1.0.* `microgears/webstone-pdo` поддерживается только MySQL-драйвер (критично для `SchemaBuilder`,`ColumnBuilder`)
+Note!\
+In version 1.0.* of `microgears/webstone-pdo` only MySQL driver is supported (critical for `SchemaBuilder`,`ColumnBuilder`)
 
-После установки и настройки необходимо получить __логин и пароль/ключ API__ на сайте NPG в личном кабинете. Подробности [здесь](<http://localhost.com>).
+After setup, you need to get __login and password/API key__ on the NPG website in your personal account. Details [here](<http://localhost.com>).
