@@ -55,7 +55,6 @@ class WarehouseRecordset extends SearchRecordsetAbstract
 
         // get rows
         $this->fetchRows([]);
-        echo "Total rows: " . count($this->getRows()) . "\n";
 
         $result = [];
         $rows = $this->getRows();
@@ -87,7 +86,6 @@ class WarehouseRecordset extends SearchRecordsetAbstract
 
         // override rows
         $this->setRows($result);
-        echo "Total rows(after): " . count($this->getRows()) . "\n";
         return $this;
     }
 
