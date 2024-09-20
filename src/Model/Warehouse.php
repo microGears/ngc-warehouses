@@ -1,6 +1,6 @@
 <?php
 
-declare(strict_types=1);
+declare (strict_types = 1);
 /**
  * This file is part of NG\API\Warehouses.
  *
@@ -12,6 +12,7 @@ declare(strict_types=1);
 
 namespace NG\API\Warehouses\Model;
 
+use Chronolog\Helper\ArrayHelper;
 use WebStone\PDO\Database;
 use WebStone\PDO\ModelAbstract;
 
@@ -20,7 +21,7 @@ use WebStone\PDO\ModelAbstract;
  *
  * @author Maxim Kirichenko <kirichenko.maxim@gmail.com>
  * @datetime 21.08.2024 08:53:00
- * 
+ *
  * @property int    $wh_id
  * @property string $wh_no
  * @property string $address_address
@@ -42,16 +43,13 @@ use WebStone\PDO\ModelAbstract;
  * @property int    $_active
  * @property string $_import_key
  */
-final class Warehouse extends ModelAbstract
-{
-    public function __construct(Database $db)
-    {        
+final class Warehouse extends ModelAbstract {
+    public function __construct(Database $db) {
         $this->setDb($db);
-        parent::__construct(LayoutWarehouse::getTableName(), LayoutWarehouse::getPrimaryKey());        
+        parent::__construct(LayoutWarehouse::getTableName(), LayoutWarehouse::getPrimaryKey());
     }
 
-    public function beforeLoad(array &$data = null): bool
-    {
+    public function beforeLoad(array &$data = null): bool {
         if ($data !== null) {
             /** denormalize data */
             if (!isset($data[$this->getPrimaryKey()])) {
@@ -71,6 +69,21 @@ final class Warehouse extends ModelAbstract
                 /** transform services */
                 if (isset($data['services']) && is_array($data['services'])) {
                     $data['services'] = implode(',', $data['services']);
+                }
+
+                /** transform schedule */
+                if (isset($data['schedule']) && is_array($data['schedule'])) {
+                    $schedule = [];
+                    foreach ($data['schedule'] as $timetable) {
+                        if (is_array($timetable)) {
+                            $day  = ucfirst(ArrayHelper::element('day_of_week', $timetable, 'Mon'));
+                            $from = ArrayHelper::element('open_time', $timetable, '00:00');
+                            $to   = ArrayHelper::element('close_time', $timetable, '00:00');
+
+                            $schedule[] = "$day: $from-$to";
+                        }
+                    }
+                    $data['schedule'] = implode(',', $schedule);
                 }
             }
 

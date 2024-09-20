@@ -101,6 +101,12 @@ class LayoutWarehouse implements LayoutInterface
                 'null'    => false,
                 'default' => 0.00,
             ],
+            'schedule'             => [
+                'type'    => 'string',
+                'length'  => 128,
+                'null'    => false,
+                'default' => '',
+            ],
 
             /** warehouse info */
             'name'                 => [
