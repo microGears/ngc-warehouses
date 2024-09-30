@@ -27,7 +27,7 @@ use WebStone\PDO\RecordsetAbstract;
  */
 abstract class SearchRecordsetAbstract extends RecordsetAbstract
 {
-    protected ?QueryBuilderInterface $serachBuilder = null;
+    protected ?QueryBuilderInterface $searchBuilder = null;
 
     public function __construct(Database $db)
     {
@@ -37,16 +37,16 @@ abstract class SearchRecordsetAbstract extends RecordsetAbstract
 
     public function getSearchBuilder(): QueryBuilderInterface
     {
-        if ($this->serachBuilder === null) {
+        if ($this->searchBuilder === null) {
             $this->setSearchBuilder($this->getDb()->getQueryBuilder());
         }
 
-        return $this->serachBuilder;
+        return $this->searchBuilder;
     }
 
     public function setSearchBuilder(QueryBuilderInterface $builder): self
     {
-        $this->serachBuilder = $builder;
+        $this->searchBuilder = $builder;
         return $this;
     }
 }
